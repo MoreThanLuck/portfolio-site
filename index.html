@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Ian J Battaglia</title>
+  <meta name="author" content="Ian J Battaglia">
+  <meta name="description" content="A collection of the work of Ian Battaglia">
+  <meta name="keywords" content="portfolio,collection,photos,writing,film,blog">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon">
+  <link href="https://fonts.googleapis.com/css?family=Anonymous+Pro:400,400i" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.typekit.net/ujq5ueo.css" type="text/css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+  <link rel="stylesheet" href="css/stylesheet.css" type="text/css">
+</head>
+
+<body>
+  <div id="left"></div>
+  <div id="right"></div>
+  <div id="top"></div>
+  <div id="bottom"></div>
+  <canvas id="canvas"></canvas>
+  <script type="text/javascript">
+    let resizeReset = function() {
+      w = canvasBody.width = window.innerWidth;
+      h = canvasBody.height = window.innerHeight;
+    }
+
+    const opts = {
+      particleColor: "rgb(200,200,200)",
+      lineColor: "rgb(200,200,200)",
+      particleAmount: 30,
+      defaultSpeed: .5,
+      variantSpeed: 1,
+      defaultRadius: 2,
+      variantRadius: 2,
+      linkRadius: 200,
+    };
+
+    window.addEventListener("resize", function() {
+      deBouncer();
+    });
+
+    let deBouncer = function() {
+      clearTimeout(tid);
+      tid = setTimeout(function() {
+        resizeReset();
+      }, delay);
+    };
+
+    let checkDistance = function(x1, y1, x2, y2) {
+      return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    };
+
+    let linkPoints = function(point1, hubs) {
+      for (let i = 0; i < hubs.length; i++) {
+        let distance = checkDistance(point1.x, point1.y, hubs[i].x, hubs[i].y);
+        let opacity = 1 - distance / opts.linkRadius;
+        if (opacity > 0) {
+          drawArea.lineWidth = 0.5;
+          drawArea.strokeStyle = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${opacity})`;
+          drawArea.beginPath();
+          drawArea.moveTo(point1.x, point1.y);
+          drawArea.lineTo(hubs[i].x, hubs[i].y);
+          drawArea.closePath();
+          drawArea.stroke();
+        }
+      }
+    }
+
+    Particle = function(xPos, yPos) {
+      this.x = Math.random() * w;
+      this.y = Math.random() * h;
+      this.speed = opts.defaultSpeed + Math.random() * opts.variantSpeed;
+      this.directionAngle = Math.floor(Math.random() * 360);
+      this.color = opts.particleColor;
+      this.radius = opts.defaultRadius + Math.random() * opts.variantRadius;
+      this.vector = {
+        x: Math.cos(this.directionAngle) * this.speed,
+        y: Math.sin(this.directionAngle) * this.speed
+      };
+      this.update = function() {
+        this.border();
+        this.x += this.vector.x;
+        this.y += this.vector.y;
+      };
+      this.border = function() {
+        if (this.x >= w || this.x <= 0) {
+          this.vector.x *= -1;
+        }
+        if (this.y >= h || this.y <= 0) {
+          this.vector.y *= -1;
+        }
+        if (this.x > w) this.x = w;
+        if (this.y > h) this.y = h;
+        if (this.x < 0) this.x = 0;
+        if (this.y < 0) this.y = 0;
+      };
+      this.draw = function() {
+        drawArea.beginPath();
+        drawArea.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        drawArea.closePath();
+        drawArea.fillStyle = this.color;
+        drawArea.fill();
+      };
+    };
+
+    function setup() {
+      particles = [];
+      resizeReset();
+      for (let i = 0; i < opts.particleAmount; i++) {
+        particles.push(new Particle());
+      }
+      window.requestAnimationFrame(loop);
+    }
+
+    function loop() {
+      window.requestAnimationFrame(loop);
+      drawArea.clearRect(0, 0, w, h);
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+      }
+      for (let i = 0; i < particles.length; i++) {
+        linkPoints(particles[i], particles);
+      }
+    }
+
+    const canvasBody = document.getElementById("canvas"),
+      drawArea = canvasBody.getContext("2d");
+    let delay = 200,
+      tid,
+      rgb = opts.lineColor.match(/\d+/g);
+    resizeReset();
+    setup();
+  </script>
+  <div class="container-fluid my-container">
+    <div class="row justify-content-center text-center header">
+      <div class="col-md-4 title">
+        <h1 id="header">おはようございます！</h1>
+        <h2 id="header2">Good morning! I'm Ian.</h2>
+        <script>
+          var greeting;
+          var time = new Date().getHours();
+          if (time < 10) {
+            greeting = "おはようございます！";
+          } else if (time < 20) {
+            greeting = "こんにちは！";
+          } else {
+            greeting = "こんばんは！";
+          }
+          document.getElementById("header").innerHTML = greeting;
+          var greeting;
+          var time = new Date().getHours();
+          if (time < 10) {
+            greeting = "Good morning! I'm Ian.";
+          } else if (time < 20) {
+            greeting = "Hello! I'm Ian.";
+          } else {
+            greeting = "Good evening! I'm Ian.";
+          }
+          document.getElementById("header2").innerHTML = greeting;
+        </script>
+      </div>
+    </div>
+    <div class="row justify-content-center body">
+      <div class="col-md-3 bio">
+        <p>I'm a polymath and monochromist based out of Chicago.
+          My work is generally sorted into writing, photography, and film, but
+          I love to learn and dabble in new mediums.
+          I'm a member of the #merveilles collective / productivity cult.
+          My work is showcased on the websites below, sorted by medium.
+          <br><br>
+          Want to work together, or talk about something?<br>
+          Email me here: <a href="mailto:ian@monochromatic.co">ian@monochromatic.co</a><br>
+          <br>
+          Thanks for taking a look!<br>
+          — I</p>
+      </div>
+    </div>
+    <div class="row words">
+      <div class="col-md-4 offset-md-3 text-center writing links">
+        <p>words — <a href="https://mnchrm.co">mnchrm.co</a></p>
+      </div>
+    </div>
+    <div class="row photography">
+      <div class="col-md-4 offset-md-5 text-center photos links">
+        <p>photos — <a href="https://monochromatic.co">monochromatic.co</a></p>
+      </div>
+    </div>
+    <div class="row film">
+      <div class="col-md-4 offset-md-3 text-center video links">
+        <p>film — <a href="https://heavylight.co">heavylight.co</a></p>
+      </div>
+    </div>
+    <div class="row align-items-end footer">
+      <div class="col-md-3 col-xs-3 offset-md-3 copyright">
+        <p>MMXIX ©<br>
+          Ian Battaglia<br>
+          <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode">CC BY-NC-SA</a></p>
+      </div>
+      <div class="col-md-3 col-xs-3 text-right social">
+        <span style="font-size: 2em; color: black;">
+          <a href="https://twitter.com/ianjbattaglia"><i class="fab fa-twitter"></i></a>
+          <a href="https://ko-fi.com/monochromatic"><i class="fas fa-coffee"></i></a>
+          <a href="https://merveilles.town/@ian"><i class="fab fa-mastodon"></i></a>
+          <a href='https://webring.xxiivv.com/#random' target='_blank'><i class="fas fa-dharmachakra"></i></a>
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

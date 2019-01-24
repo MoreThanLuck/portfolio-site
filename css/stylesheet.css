@@ -1,0 +1,160 @@
+/* Borders */
+
+#bottom,
+#left,
+#right,
+#top {
+  position   : fixed;
+  background : #111;
+}
+
+#left,
+#right {
+  top    : 0;
+  bottom : 0;
+  width  : 20px;
+}
+
+#left {
+  left : 0;
+}
+
+#right {
+  right : 0;
+}
+
+#bottom,
+#top {
+  right  : 0;
+  left   : 0;
+  height : 20px;
+}
+
+#top {
+  top : 0;
+}
+
+#bottom {
+  bottom : 0;
+}
+
+@media
+  only screen
+  and (max-width        : 500px),
+  only screen
+  and (min-device-width : 768px)
+  and (max-device-width : 1024px) {
+  #bottom,
+  #left,
+  #right,
+  #top {
+    display : none;
+  }
+}
+
+body {
+  background-color : #32343a;
+}
+
+a {
+  color : #41f2bf;
+}
+
+p {
+  color : #efefef;
+}
+
+h1,
+h2 {
+  color : #fff;
+}
+
+.title {
+  width            : 300 px;
+  margin-top       : 40px;
+  padding-top      : 10px;
+  border-radius    : 25px;
+  background-color : #ff2968;
+}
+
+.bio {
+  margin-top       : 30px;
+  padding-top      : 10px;
+  padding-left     : 15px;
+  border-radius    : 25px;
+  background-color : #202329;
+}
+
+.links {
+  width            : 300 px;
+  margin-top       : 30px;
+  padding-top      : 10px;
+  border-radius    : 25px;
+  background-color : #202329;
+}
+
+.copyright {
+  height           : 80px;
+  margin-top       : 150px;
+  padding-top      : 7px;
+  padding-left     : 15px;
+  border-radius    : 25px 0px 0px 25px;
+  background-color : #202329;
+}
+
+.social {
+  height           : 80px;
+  margin-top       : 150px;
+  padding-top      : 15px;
+  border-radius    : 0px 25px 25px 0px;
+  background-color : #202329;
+}
+
+.writing {
+  margin-top : 75px;
+}
+
+h2 {
+  font-family : minion-pro-display,
+                serif;
+  font-size   : 36px;
+  font-style  : italic;
+  font-weight : 600;
+}
+
+.bio p {
+  font-family : 'Anonymous Pro',
+                monospace;
+  font-size   : 16px;
+}
+
+.footer p {
+  font-family : 'Anonymous Pro',
+                monospace;
+  font-size   : 14px;
+}
+
+a:hover {
+  color : #ff2968;
+}
+
+.links p {
+  font-family : acumin-pro-wide,
+                sans-serif;
+  font-size   : 22px;
+  font-style  : normal;
+  font-weight : 100;
+}
+
+img {
+  padding-bottom : 5px;
+}
+
+canvas {
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-1;
+}
